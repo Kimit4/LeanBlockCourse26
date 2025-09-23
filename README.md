@@ -17,6 +17,20 @@
 * Completion of Analysis I and Linear Algebra I should provide a sufficient mathematical background, but participants should have a strong understanding of these subjects, as formal proof verification is very "unforgiving". No prior programming experience is required, but a certain "technical affinity and interest" is needed. Besides formal proof verification, you will be in contact with many other tools such as `git` and `github`, [Patrick Massot's](https://www.imo.universite-paris-saclay.fr/~patrick.massot/en/) `leanblueprint`, containerization through `docker`, CI/CD in the form of `github Actions`, as well as various ML tools.
 * The course will be **conducted in English**, but Bachelor students taking the course as part of their ABV requirements may express themselves in German if they prefer.
 
+## Course Outline
+
+The course outline is still subject to change, but will roughly be as follows:
+
+1) General introduction, or: why formalize maths?
+1) The tech stack, or: how to properly organize a formalization project?
+1) Foundations of Logic in LEAN, or: what is a type and what does being constructive vs. intuitionistic mean?
+1) Set theory in LEAN, or: why you should rarely do set theory in LEAN
+1) Natural numbers in LEAN, or: why inductive types are so powerful.
+1) **Formalization Example** The infinitude primes, or: your first real proof in LEAN.
+1) **Formalization Example** The handshaking lemma, or: graph theory and combinatorics in LEAN.
+1) **Examination** Final exam and distribution of small formalization projects for Master-level students.
+1) **Optional** An example on how to contribute to mathlib.
+
 ## Technical difficulties
 
 ### `git` and `github`
