@@ -331,15 +331,20 @@ def format_label(ann: Announcement) -> str:
 
 
 def render_announcement(ann: Announcement) -> str:
-    """Render a single announcement as an HTML paragraph with date label."""
-    return f"<p>{format_label(ann)} {inline_md_to_html(ann.body)}</p>"
+    """Render a single announcement as an HTML block with date above."""
+    return (
+        f'<blockquote class="highlight">'
+        f'<p>{format_label(ann)}</p>'
+        f'<p>{inline_md_to_html(ann.body)}</p>'
+        f'</blockquote>'
+    )
 
 
 def inject_announcements() -> None:
     """Extract ## Announcements from README.md and inject into HOME.md.
 
-    Recent announcements (within RECENT_DAYS) are shown in a highlighted
-    callout at the top. Older ones are collapsed in a <details> block.
+    Recent announcements (within RECENT_DAYS) are shown in highlighted
+    callouts at the top. Older ones are collapsed in a <details> block.
     Timestamps are inferred from git blame.
     """
     announcements = parse_announcements()
@@ -353,20 +358,16 @@ def inject_announcements() -> None:
     parts: list[str] = []
 
     if recent:
-        parts.append('<blockquote class="highlight">')
         for ann in recent:
             parts.append(render_announcement(ann))
-        parts.append("</blockquote>")
         parts.append("")
 
     if older:
         parts.append("<details>")
         summary = "Older announcements" if recent else "Announcements"
         parts.append(f"<summary>{summary}</summary>")
-        parts.append('<blockquote class="highlight">')
         for ann in older:
-            parts.append(render_announcement(d, body))
-        parts.append("</blockquote>")
+            parts.append(render_announcement(ann))
         parts.append("</details>")
         parts.append("")
 
