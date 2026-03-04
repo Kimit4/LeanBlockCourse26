@@ -564,7 +564,13 @@ example (P Q R : Prop) : (P ∧ Q) ∨ R → P ∨ R := by
 
 /-
 # Exercise Block B02
-Try to get the proof with the fewest non-whitespace characters possible!
+Try to get the proof with the fewest non-whitespace characters possible! You can use:
+
+```
+#eval ("
+<insert your proof here>
+").toList.filter (!·.isWhitespace) |>.length 
+```
 
 Hint: try `rintro` with nested structures
 
