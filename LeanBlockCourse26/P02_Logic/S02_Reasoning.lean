@@ -32,12 +32,12 @@ Lean also has `lemma` but since the distinction between
 Lemmas and Theorems (and Propositions...) is blurry, mathlib just
 embraces calling everything a `theorem`.
 
-A *Fact* is (usually) a cleanly separate su-statement in the 
+A *Fact* is (usually) a cleanly separate sub-statement in the
 proof of a bigger *Theorem* that is not worth abstracting into
 its own *Lemma* since there is no expectation it will be used
 in any other proofs besides this one specific one.
 
-This is remarkably similar to the `DRY`(Do Not Repeat Yourself)
+This is remarkably similar to the `DRY` (Do Not Repeat Yourself)
 principle in coding: if a block of code is only used in this one
 particular method, this is where it should live. If it will or
 can reasonably be used in other methods, you should abstract it
@@ -205,7 +205,7 @@ Enables explicit backward reasoning by declaring intermediate goals:
 3. Maintains goal context for clearer proof structuring
 
 This tactic is used around 2,600 times in mathlib. But it is very nice
-in that mimicks the human language "it suffices to show that ... because ...".
+in that it mimics the human language "it suffices to show that ... because ...".
 -/
 
 -- Basic suffices example showing goal transformation
@@ -215,13 +215,13 @@ example (P Q R : Prop) (h₁ : P → Q) (h₂ : Q → R) (p : P) : R := by
     -- in fact suffice to show Q, similar to how `have` has its own sub-proof.
     -- In this sub-proof the actual assumption you are claiming suffices is
     -- introduced as `this`. Note that the term `this` (if not used as an
-    -- actual variable name as it us here) also refers the last unnamed variable.
+    -- actual variable name as it is here) also refers to the last unnamed variable.
     exact h₂ this
   exact h₁ p
 
 /-
-Unlike for example `have`, the tactic `suffices` only supports term mode
-proofs, i.e., it always needs the `by` and does not use the `:=` proof indicator.
+Unlike `have`, the tactic `suffices` does not support `:=` for its
+sub-proof, i.e., it always needs `by` to open a tactic block.
 -/
 
 -- Compare with equivalent `apply`
@@ -234,7 +234,7 @@ example (P Q R : Prop) (h₁ : P → Q) (h₂ : Q → R) (p : P) : R := by
   suffices q : Q by
     exact h₂ q
   exact h₁ p
-  
+
 /-
 ## The `refine` Tactic
 
@@ -260,12 +260,12 @@ example (P Q : Prop) (f : P → Q) (p : P) : Q := by
   exact f (by exact p)
 
 /-
-## Tactics are just "syntactic sugar" to make mathematician's live easier
+## Tactics are just "syntactic sugar" to make mathematicians' lives easier
 
-At its core everything is term mode forward arguing compositing of methods,
+At its core everything is term mode forward arguing composition of functions,
 but tactics allow you to argue closer to natural language. This inherently
 will mean there are many equivalent ways of achieving the same goal
-and there will always some weirdness and inconsistencies because of that
+and there will always be some weirdness and inconsistencies because of that
 flexibility.
 
 ## Notational inconsistencies
@@ -274,12 +274,12 @@ Unfortunately the syntax of mathlib tactics is not entirely
 consistent, so in particular `:=` is not always used to signal
 the start of a sub-proof (`let` and `have` use it, `refine` and
 `suffices` do not) and just because one tactic admits a certain
-syntax, another does not necessarily allow the same, so the 
+syntax, another does not necessarily allow the same, so the
 following are all *invalid* for `suffices`:
 
 * suffices Q                   -- just leave argument open
 * suffices Q by ?_             -- leave an intentional gap
-* suffices Q := exact h₂ this  -- use term mode
+* suffices Q := h₂ this        -- use term mode
 
 ## Whitespace (indentation and newlines)
 
