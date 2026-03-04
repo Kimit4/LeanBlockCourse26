@@ -557,14 +557,15 @@ example (P Q R : Prop) : (P ∧ Q) ∨ R → P ∨ R := by
 
 /-
 # Exercise Block B02
+Try to get the proof with the fewest non-whitespace characters possible!
 
 Hint: try `rintro` with nested structures
 -/
 
--- Exercise 2.1
+-- Exercise 2.1 (🥉170 🥈150 🏅130)
 example (P Q R S : Prop) : (P ∨ Q) ∧ (R ∨ S) → (P ∧ R) ∨ (P ∧ S) ∨ (Q ∧ R) ∨ (Q ∧ S) := by
   sorry
 
--- Exercise 2.2
+-- Exercise 2.2 (🥉150 🥈130 🏅100)
 example (P Q R S : Prop) : ((P ∧ Q) ∨ R) ∧ S → (P ∨ R) ∧ (Q ∨ R) ∧ S := by
   sorry
