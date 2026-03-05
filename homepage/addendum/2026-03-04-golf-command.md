@@ -1,5 +1,5 @@
 ---
-title: "Measuring proof length"
+title: "Proof length"
 parent: Addendum
 nav_order: 9996
 ---

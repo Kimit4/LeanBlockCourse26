@@ -1,10 +1,10 @@
 ---
-title: "Disabling VS Code distractions"
+title: "VS Code distractions"
 parent: Addendum
 nav_order: 9995
 ---
 
-# Disabling VS Code distractions
+# VS Code distractions
 {: .no_toc }
 
 *March 5, 2026*
