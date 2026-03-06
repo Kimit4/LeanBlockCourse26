@@ -404,34 +404,30 @@ theorem Subset.antisymm_iff : (S = T) ↔ (S ⊆ T ∧ T ⊆ S) := by
   sorry
 
 -- Exercise 2.3 (Master)
-example : (S = T) ↔ (S ⊆ T ∧ T ⊆ S) := by
-  sorry
-
--- Exercise 2.4 (Master)
 example {x : α} (h₁ : x ∈ S) (h₂ : x ∉ T) : ¬S ⊆ T := by
   sorry
 
--- Exercise 2.5
+-- Exercise 2.4
 lemma compl_subset_compl_of_subset (h₁ : S ⊆ T) : Tᶜ ⊆ Sᶜ := by
   sorry
 
--- Exercise 2.6 (Master)
+-- Exercise 2.5 (Master)
 example (S : Set α) : Sᶜᶜ = S := by
   sorry
 
--- Exercise 2.7
+-- Exercise 2.6
 lemma compl_subset_compl (S T : Set α) : Tᶜ ⊆ Sᶜ ↔ S ⊆ T  := by
   sorry
 
--- Exercise 2.8 (Master)
+-- Exercise 2.7 (Master)
 example (h : S ⊆ T) {x : α} (hx : x ∈ Tᶜ) : x ∈ Sᶜ := by
   sorry
 
--- Exercise 2.9 (Master)
+-- Exercise 2.8 (Master)
 example {R : Set α} (h₁ : R ⊆ S) (h₂ : S ⊆ T) : Tᶜ ⊆ Rᶜ := by
   sorry
 
--- Exercise 2.10
+-- Exercise 2.9
 example (x : α) (S : Set α) : x ∈ Sᶜ ↔ (x ∈ S → False) := by
   sorry
 
