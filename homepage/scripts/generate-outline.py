@@ -356,12 +356,10 @@ def inject_announcements() -> None:
         return
     announcements.sort(key=lambda a: (a.d, a.timestamp or datetime.min.replace(tzinfo=BERLIN)), reverse=True)
 
-    cutoff = datetime.now(tz=BERLIN) - timedelta(hours=RECENT_HOURS)
+    cutoff = (datetime.now(tz=BERLIN) - timedelta(hours=RECENT_HOURS)).date()
 
     def is_recent(a: Announcement) -> bool:
-        if a.timestamp is not None:
-            return a.timestamp >= cutoff
-        return a.d >= cutoff.date()
+        return a.d >= cutoff
 
     recent = [a for a in announcements if is_recent(a)]
     older = [a for a in announcements if not is_recent(a)]
