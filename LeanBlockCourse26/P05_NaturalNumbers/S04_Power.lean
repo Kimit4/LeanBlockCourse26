@@ -51,9 +51,9 @@ theorem pow_one (n : MyNat) : n ^ (1 : MyNat) = n := by
 -- inductive step, rewrite with `pow_succ` and apply the inductive
 -- hypothesis and `mul_one`.
 theorem one_pow (n : MyNat) : (1 : MyNat) ^ n = 1 := by
-  induction' n with m ih
-  · rw [← zero_eq_zero, pow_zero]
-  · rw [pow_succ, ih, mul_one]
+  induction n with
+  | zero => rw [← zero_eq_zero, pow_zero]
+  | succ m ih => rw [pow_succ, ih, mul_one]
 
 -- Exercise 1.5
 -- Unfold `2` as `succ 1`, rewrite with `pow_succ` and `pow_one`.
@@ -75,9 +75,10 @@ theorem pow_add (n m k : MyNat) : n ^ (m + k) = n ^ m * n ^ k := by
 -- For the inductive step, rewrite all three `pow_succ` terms, apply the
 -- inductive hypothesis, and rearrange with `mul_assoc` and `mul_comm`.
 theorem mul_pow (n m k : MyNat) : (n * m) ^ k = n ^ k * m ^ k := by
-  induction' k with k' ih
-  · rw [← zero_eq_zero, pow_zero, pow_zero, pow_zero, mul_one]
-  · rw [pow_succ, pow_succ, pow_succ, ih]
+  induction k with
+  | zero => rw [← zero_eq_zero, pow_zero, pow_zero, pow_zero, mul_one]
+  | succ k' ih =>
+    rw [pow_succ, pow_succ, pow_succ, ih]
     repeat rw [mul_assoc]
     rw [mul_comm n (_ * m), mul_assoc, mul_comm m n]
 
@@ -86,9 +87,9 @@ theorem mul_pow (n m k : MyNat) : (n * m) ^ k = n ^ k * m ^ k := by
 -- For the inductive step, rewrite with `pow_succ`, apply the inductive
 -- hypothesis, then use `mul_succ` and `pow_add`.
 theorem pow_pow (n m k : MyNat) : (n ^ m) ^ k = n ^ (m * k) := by
-  induction' k with k' ih
-  · rw [← zero_eq_zero, mul_zero, pow_zero, pow_zero]
-  · rw [pow_succ, ih, mul_succ, pow_add]
+  induction k with
+  | zero => rw [← zero_eq_zero, mul_zero, pow_zero, pow_zero]
+  | succ k' ih => rw [pow_succ, ih, mul_succ, pow_add]
 
 -- Exercise 1.9 (Master)
 -- Expand all squares with `pow_two`, distribute with `mul_add` and `add_mul`,
@@ -108,8 +109,8 @@ theorem add_sq (n m : MyNat) :
 
 Fermat's Last Theorem states that if `x, y, z > 0` and
 `m ≥ 3` then `x^m + y^m ≠ z^m`. Since we have not yet
-introduce inequalities, you will need to restate this
-as several inequalities.
+introduced inequalities, you will need to restate this
+using several inequalities.
 
 The shortest solution known to humans would translate into
 many millions of lines of Lean code. Kevin Buzzard is working
