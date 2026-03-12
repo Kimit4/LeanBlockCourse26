@@ -5,6 +5,9 @@ import Mathlib.NumberTheory.PrimeCounting
 import Mathlib.SetTheory.Cardinal.Basic
 import Mathlib.Tactic.TFAE
 
+import Mathlib.Logic.Function.Iterate
+import Mathlib.Order.Monotone.Basic
+
 /-
 ## Euclid's theorem: there are infinitely many primes
 
