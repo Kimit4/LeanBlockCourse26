@@ -176,15 +176,15 @@ theorem infinitude_of_primes_tfae : [
    /-
    **(8) The prime counting function is unbounded**
    -/
-   ∀ n : ℕ, ∃ m, n ≤ Nat.primeCounting m,
+   -- ∀ n : ℕ, ∃ m, n ≤ Nat.primeCounting m,
 
    /-
    **(9) The cardinality of the primes equals ℵ₀**
    -/
-   Cardinal.mk { p : ℕ // p.Prime } = ℵ₀,
-  ].TFAE := by
+   -- Cardinal.mk { p : ℕ // p.Prime } = ℵ₀,
+   ].TFAE := by
 
-    tfae_have 5 → 6 := by -- Theo
+   tfae_have 5 → 6 := by -- Theo
       intro h
       choose P hP using h
       have ⟨pn, hp⟩ := And.intro (fun n ↦ (hP n).left) fun n ↦ (hP n).right
@@ -193,178 +193,165 @@ theorem infinitude_of_primes_tfae : [
       use f
 
       have iterate_nfixed (f : ℕ → ℕ) (h : ∀ x, f x > x) (x n : ℕ) : f^[n+1] x > f^[n] x := by
-        rw [Function.iterate_succ']
-        exact h (f^[n] x)
+         rw [Function.iterate_succ']
+         exact h (f^[n] x)
 
       have hfinc: ∀ (n : ℕ), f (n + 1) > f n := by
-        unfold f
-        intro n
-        exact iterate_nfixed P pn 0 (n+1)
+         unfold f
+         intro n
+         exact iterate_nfixed P pn 0 (n+1)
 
       have hfmon : StrictMono f := by exact strictMono_nat_of_lt_succ hfinc
 
       have hfinj : Function.Injective f := StrictMono.injective hfmon
 
       have hfprime (n : ℕ) : Nat.Prime (f n) := by
-        unfold f
-        cases n with
-        | zero => exact hp 0
-        | succ k => rw [Function.iterate_succ']
-                    exact hp (P^[k+1] 0)
+         unfold f
+         cases n with
+         | zero => exact hp 0
+         | succ k => rw [Function.iterate_succ']
+                     exact hp (P^[k+1] 0)
 
       use hfinj
 
-  tfae_have 2 → 3 := by -- Arthur
-   intro h S
-   let s := Set.infinite_univ_iff.2 h
-   let P := @Set.univ { p // Nat.Prime p }
-   by_contra a
-   push_neg at a
-   let PN := P.image Subtype.val
-   have PS : PN ⊆ S := by rw [Set.subset_def]
-                          intro k b
-                          by_contra l
-                          have x : k ∉ S := by exact Finset.notMem_mono (fun ⦃a⦄ a_1 ↦ a_1) l
-                          have knp := a k x
-                          have kp : Nat.Prime k := by unfold PN at b
-                                                      unfold P at b
-                                                      simp at b
-                                                      exact b
-                          contradiction
-   have PNI : PN.Infinite := by unfold PN
-                                unfold P
-                                simp
-                                exact Set.infinite_coe_iff.mp h
-   have SF : (S : Set ℕ).Finite := by exact Finset.finite_toSet S
-   obtain ⟨a , inn, nis⟩ := Set.Infinite.exists_notMem_finite PNI SF
-   let is := PS inn
-   contradiction
+   tfae_have 2 → 3 := by -- Arthur
+      intro h S
+      let s := Set.infinite_univ_iff.2 h
+      let P := @Set.univ { p // Nat.Prime p }
+      by_contra a
+      push_neg at a
+      let PN := P.image Subtype.val
+      have PS : PN ⊆ S := by
+         rw [Set.subset_def]
+         intro k b
+         by_contra l
+         have x : k ∉ S := by exact Finset.notMem_mono (fun ⦃a⦄ a_1 ↦ a_1) l
+         have knp := a k x
+         have kp : Nat.Prime k := by
+            unfold PN at b
+            unfold P at b
+            simp at b
+            exact b
+         contradiction
+      have PNI : PN.Infinite := by
+         unfold PN
+         unfold P
+         simp
+         exact Set.infinite_coe_iff.mp h
+      have SF : (S : Set ℕ).Finite := by exact Finset.finite_toSet S
+      obtain ⟨a , inn, nis⟩ := Set.Infinite.exists_notMem_finite PNI SF
+      let is := PS inn
+      contradiction
 
-  tfae_have 1 → 2 := by -- Onat
-   intro h
-   exact { not_finite := h }
+   tfae_have 1 → 2 := by -- Onat
+      intro h
+      exact { not_finite := h }
 
-  tfae_have 1 → 6 := by -- Bohdan
-    intro h
-    use Nat.nth Nat.Prime
-    use Nat.nth_injective h
-    intro k
-    exact Nat.prime_nth_prime k
+   tfae_have 1 → 6 := by -- Bohdan
+      intro h
+      use Nat.nth Nat.Prime
+      use Nat.nth_injective h
+      intro k
+      exact Nat.prime_nth_prime k
 
-  tfae_have 3 → 2 := by sorry -- Leonie
+   -- tfae_have 3 → 2 := by sorry -- Leonie
 
-  tfae_have 3 → 4 := by -- Alexandra
-   intro a b c
-   exact a b
+   tfae_have 3 → 4 := by -- Alexandra
+      intro a b c
+      exact a b
 
-  tfae_have 5 → 4 := by -- Sammy
-    intro h S _
-    rcases Finset.eq_empty_or_nonempty S with SE|SNE
-    · use 2
-      constructor
-      · simp[SE]
-      · exact Nat.prime_two
-    · obtain ⟨maxS,h₂⟩ := Finset.max_of_nonempty SNE
-      obtain⟨p,h₃,h₄⟩ := h maxS
-      use p
-      constructor
-      · have h₅ := GT.gt.lt h₃; exact Finset.notMem_of_max_lt h₅ h₂
-      · exact h₄
+   tfae_have 5 → 4 := by -- Sammy
+     intro h S _
+     rcases Finset.eq_empty_or_nonempty S with SE|SNE
+     · use 2
+       constructor
+       · simp[SE]
+       · exact Nat.prime_two
+     · obtain ⟨maxS,h₂⟩ := Finset.max_of_nonempty SNE
+       obtain⟨p,h₃,h₄⟩ := h maxS
+       use p
+       constructor
+       · have h₅ := GT.gt.lt h₃; exact Finset.notMem_of_max_lt h₅ h₂
+       · exact h₄
 
-  tfae_have 6 → 3 := by
-   intro h
-   rcases h with ⟨P, hP_inj, hP_prime⟩
-   intro S
-   -- die Menge des Bilds von der inj. Fkt P ist unendlich
-   have hR : (Set.range P).Infinite := Set.infinite_range_of_injective hP_inj
-   -- ∃ p ∈ ℕ , p ∈ hR ∧ p ∉ S , weil S endl. hR unendlich
-   obtain ⟨p, hpR, hpS⟩ := Set.Infinite.exists_notMem_finset hR S
-   -- p ∈ hR -> ∃ k ∈ ℕ , p = P k
-   rcases hpR with ⟨k, rfl⟩
-   -- p = P k ist eine Primzahl
-   have g : Nat.Prime (P k) := hP_prime k
-   use (P k)
+   tfae_have 6 → 3 := by
+      intro h
+      rcases h with ⟨P, hP_inj, hP_prime⟩
+      intro S
+      -- die Menge des Bilds von der inj. Fkt P ist unendlich
+      have hR : (Set.range P).Infinite := Set.infinite_range_of_injective hP_inj
+      -- ∃ p ∈ ℕ , p ∈ hR ∧ p ∉ S , weil S endl. hR unendlich
+      obtain ⟨p, hpR, hpS⟩ := Set.Infinite.exists_notMem_finset hR S
+      -- p ∈ hR -> ∃ k ∈ ℕ , p = P k
+      rcases hpR with ⟨k, rfl⟩
+      -- p = P k ist eine Primzahl
+      have g : Nat.Prime (P k) := hP_prime k
+      use (P k)
 
 
-  tfae_have 6 → 1 := by -- Alexander
-   rintro ⟨P, hP, hprime⟩
-   exact Set.infinite_of_injective_forall_mem hP (fun x => hprime x)
+   tfae_have 6 → 1 := by -- Alexander
+      rintro ⟨P, hP, hprime⟩
+      exact Set.infinite_of_injective_forall_mem hP (fun x => hprime x)
 
-  tfae_have 4 → 1 := by -- Cara
-   /-
-   We are proving that :
-      Given:
-         (4) For any finite set *of prime numbers* we can find a prime number outside of it, i.e.
-         `(∀ (S : Finset ℕ) (_ : ∀ s ∈ S, Nat.Prime s), (∃ p ∉ S, p.Prime))`.
-      Then:
-         (1) The set of primes is infinite, i.e. `{ p : ℕ | p.Prime }.Infinite`.
-   -/
+   tfae_have 4 → 1 := by -- Cara
+      /-
+      We are proving that :
+         Given:
+            (4) For any finite set *of prime numbers* we can find a prime number outside of it, i.e.
+            `(∀ (S : Finset ℕ) (_ : ∀ s ∈ S, Nat.Prime s), (∃ p ∉ S, p.Prime))`.
+         Then:
+            (1) The set of primes is infinite, i.e. `{ p : ℕ | p.Prime }.Infinite`.
+      -/
 
-   -- First, we clear the unused variables to make the InfoView more readable.
-   clear tfae_5_to_6 tfae_2_to_3 tfae_1_to_2 tfae_1_to_6 tfae_3_to_2
-      tfae_3_to_4 tfae_5_to_4 tfae_6_to_3 tfae_6_to_1
+      -- Introduce our assumption (4)
+      intro h
 
-   -- Introduce our assumption (4)
-   intro h
+      --- Assume by way of contradiction that the set of primes is finite.
+      by_contra P_finite
+      push_neg at P_finite
 
-   --- Assume by way of contradiction that the set of primes is finite.
-   by_contra P_finite
-   push_neg at P_finite
+      -- We also define P, the set of primes, to use later in the proof.
+      let P := {p | Nat.Prime p}
 
-   -- We also define P, the set of primes, to use later in the proof.
-   let P := {p | Nat.Prime p}
+      -- Now, we show that all numbers in our set are prime, using the theorem `Set.mem_toFinset`
+      -- See: (https://leanprover-community.github.io/mathlib4_docs/find/?pattern=Set.mem_toFinset#doc)
+      -- This is necessary, since our hypothesis is only for sets of prime numbers.
+      obtain (n_in_P_n_prime : (∀ n ∈ P_finite.toFinset, Nat.Prime n)) :=
+         fun _ => (@Set.Finite.mem_toFinset ℕ P _ P_finite).mp
 
-   -- Now, we show that all numbers in our set are prime, using the theorem `Set.mem_toFinset`
-   -- See: (https://leanprover-community.github.io/mathlib4_docs/find/?pattern=Set.mem_toFinset#doc)
-   -- This is necessary, since our hypothesis is only for sets of prime numbers.
-   obtain (n_in_P_n_prime : (∀ n ∈ P_finite.toFinset, Nat.Prime n)) :=
-      fun _ => (@Set.Finite.mem_toFinset ℕ P _ P_finite).mp
+      -- We apply our hypothesis, so we get that there exists a
+      -- prime not in our finite set of primes
+      have _ := h P_finite.toFinset n_in_P_n_prime
 
-   -- We apply our hypothesis, so we get that there exists a
-   -- prime not in our finite set of primes
-   have _ := h P_finite.toFinset n_in_P_n_prime
+      -- Finally, we show that the opposite statement is also true, and we get a contradiction.
+      -- See: https://leanprover-community.github.io/mathlib4_docs/find/?pattern=Set.notMem_setOf_iff#doc
+      -- For the description of `notMem_setOf_iff`
+      obtain (_ : ¬(∃ p ∉ P_finite.toFinset, Nat.Prime p)) := by
+         push_neg
+         intro p p_not_in_P_finset
+         have p_not_in_P := (@Set.Finite.mem_toFinset ℕ P p P_finite).mpr.mt p_not_in_P_finset
+         exact Set.notMem_setOf_iff.mp p_not_in_P
+      contradiction
 
-   -- Finally, we show that the opposite statement is also true, and we get a contradiction.
-   -- See: https://leanprover-community.github.io/mathlib4_docs/find/?pattern=Set.notMem_setOf_iff#doc
-   -- For the description of `notMem_setOf_iff`
-   obtain (_ : ¬(∃ p ∉ P_finite.toFinset, Nat.Prime p)) := by
-      push_neg
-      intro p p_not_in_P_finset
-      have p_not_in_P := (@Set.Finite.mem_toFinset ℕ P p P_finite).mpr.mt p_not_in_P_finset
-      exact Set.notMem_setOf_iff.mp p_not_in_P
-   contradiction
+   tfae_have 1 → 5 := by -- Tonio
+      intro h n
+      have ⟨x, y, z⟩ := h.exists_gt n
+      exact ⟨x, z, y⟩
 
-  tfae_have 1 → 5 := by -- Tonio
-   intro h n
-   have ⟨x, y, z⟩ := h.exists_gt n
-   exact ⟨x, z, y⟩
+   tfae_have 1 → 3 := by -- Nina
+      intro P S
+      by_contra
+      push_neg at this
+      have Prime := {p | Nat.Prime p}
+      have p := Set.Infinite.exists_notMem_finset P S
+      obtain ⟨p, pP, pS⟩ := p
+      have not_prime := (this p) pS
+      have pPP : Nat.Prime p := pP
+      exact not_prime pPP
 
-  tfae_have 1 → 3 := by -- Nina
-    intro P S
-    by_contra
-    push_neg at this
-    have Prime := {p | Nat.Prime p}
-    have p := Set.Infinite.exists_notMem_finset P S
-    obtain ⟨p, pP, pS⟩ := p
-    have not_prime := (this p) pS
-    have pPP : Nat.Prime p := pP
-    exact not_prime pPP
+   tfae_have 7 → 1 := fun _ => Nat.infinite_setOf_prime -- Bohdan / Kimia
 
-  tfae_have 3 → 5 := by sorry -- Daniel
+   tfae_have 1 → 7 := Nat.nth_strictMono -- Bohdan / Kimia
 
-  tfae_have 7 → 1 := fun _ => Nat.infinite_setOf_prime -- Bohdan / Kimia
-
-  tfae_have 1 → 7 := Nat.nth_strictMono -- Bohdan / Kimia
-
-  tfae_have 7 → 3 := by sorry -- Kimia
-
-  tfae_have 1 → 8 := by sorry 
-
-  tfae_have 8 → 5 := by sorry
-
-  tfae_have 2 → 9 := by sorry
-
-  tfae_have 9 → 2 := by sorry
-
-  tfae_finish
+   tfae_finish
 
